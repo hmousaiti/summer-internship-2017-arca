@@ -1,7 +1,7 @@
 applications:
 - name: ARCAWeb
   path: target/arca-web.war
-  host: i-arca
+  host: internship-arca
   env:    
     IBM_JVM_LICENSE: L-PMAA-A3Z8P2
     IBM_LIBERTY_LICENSE: L-SWIS-AEPPZP
