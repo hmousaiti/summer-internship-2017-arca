@@ -1,1 +1,34 @@
-ARCA Home page is under construction......
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<base href="/arca/">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="">
+
+	<title>ARCA</title>
+</head>
+<body id="app-body">
+    <div ng-view></div>
+
+    <script src="lib/jquery/dist/jquery.js"></script>
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular-route/angular-route.js"></script>
+    <script src="lib/angular-sanitize/angular-sanitize.js"></script>
+    
+    
+    <script src="app/app.js"></script>
+    <script src="app/modules/core/core.js"></script>
+    <script src="app/modules/core/core-service.js"></script>
+    <script src="app/modules/core/core-controller.js"></script>
+    
+    <script src="app/modules/conversation/conversation.js"></script>
+    <script src="app/modules/conversation/conversation-service.js"></script>
+    <script src="app/modules/conversation/conversation-controller.js"></script>
+    
+    <script src="app/modules/find-my-car/find-my-car.js"></script>
+    <script src="app/modules/find-my-car/find-my-car-service.js"></script>
+    <script src="app/modules/find-my-car/find-my-car-controller.js"></script>
+
+</body>
+</html>
