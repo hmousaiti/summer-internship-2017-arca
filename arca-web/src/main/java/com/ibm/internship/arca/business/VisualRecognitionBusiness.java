@@ -14,10 +14,13 @@ public class VisualRecognitionBusiness {
 		
 		VisualRecognition service = new VisualRecognition(VisualRecognition.VERSION_DATE_2016_05_20);
 		 service.setEndPoint("https://gateway-a.watsonplatform.net/visual-recognition/api");
-		 String my_api="375c4bc8ccb5f9a66d65e8da18c9a4719eb3ca43";
-		 service.setApiKey(my_api);
 		 
-		 ClassifyImagesOptions options = new ClassifyImagesOptions.Builder().classifierIds("DashboardWarnings_957585581").images(myFile).build();
+		 
+		 String my_api="37119c77d01600ecfec9d2e95541048856fdb067";
+		 String my_class="DashboardWarnings_1224689620";
+		 
+		 service.setApiKey(my_api);
+		 ClassifyImagesOptions options = new ClassifyImagesOptions.Builder().classifierIds(my_class).images(myFile).build();
 		 VisualClassification result = service.classify(options).execute();
 		 
 		 List<VisualClass> classes = result.getImages().get(0).getClassifiers().get(0).getClasses();
