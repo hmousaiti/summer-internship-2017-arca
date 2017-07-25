@@ -33,32 +33,5 @@ public class UserResource {
 	  return Response.status(Response.Status.OK).entity(json.toString()).build();
   }
   
-	@POST
-	@Path("/upload")
-	@Consumes({MediaType.MULTIPART_FORM_DATA})
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response uploadFrame(@FormDataParam("file") InputStream fileInputStream, @FormDataParam("file") FormDataContentDisposition fileMetaData)
-	{
-		try {
-			System.err.println(fileInputStream);
-			System.err.println(fileMetaData);
-			File f = this.createTmpFileForInputStream(fileInputStream);
-			
-			JsonObject json = new JsonObject();
-			json.addProperty("path", f.getAbsolutePath());
-			  
-			return Response.status(Response.Status.OK).entity(json.toString()).build();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
-		}
-	}
-	
-	private File createTmpFileForInputStream(InputStream fileInputStream) throws IOException {
-		File tmpFile = File.createTempFile("arca-image-", ".jpg");
-		tmpFile.deleteOnExit();	
-		Files.copy(fileInputStream, tmpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-		
-		return tmpFile;
-	}
+
 }

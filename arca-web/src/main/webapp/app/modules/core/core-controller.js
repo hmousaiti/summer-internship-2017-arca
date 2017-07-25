@@ -1,3 +1,4 @@
+
 'use strict';
 (function () {
 	var CoreController = function($rootScope, $scope, $http, coreService) {
@@ -16,14 +17,14 @@
 
         	$http({ 
         				method: 'POST', 
-        				url: 'rest/user/upload',
+        				url: 'rest/visual/analyze',
         				data: formdata,
         				headers: {
                           'Content-Type': undefined
                       }
         			})
             .success(function(data, status) {
-                console.log(data);
+                $scope.results = data;
              })
             .error(function(data, status) {
                 console.debug("Error");

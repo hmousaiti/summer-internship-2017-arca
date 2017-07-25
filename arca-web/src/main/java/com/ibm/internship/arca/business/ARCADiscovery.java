@@ -33,22 +33,13 @@ public class ARCADiscovery {
 			for (Map.Entry<String, Object> entry : queryResponse.getResults().get(i).entrySet()) {
 				if(entry.getKey().equals("id")){
 					id = entry.getValue().toString() ;
-					System.out.println(id);
 				}
 				if(entry.getKey().equals("body")){
 					body = entry.getValue().toString() ;
-					System.out.println(body);
 				}
 				if(entry.getKey().equals("sourceUrl")){
 					 url = entry.getValue().toString() ;
-					 System.out.println(url);
-				}	
-				
-				
-			//	System.err.println(entry.getKey());
-				//build doc object
-				
-				
+				}
 			}
 			DiscoveryDocument DD = new DiscoveryDocument(id,body,url) ;
 			al.add(DD);
