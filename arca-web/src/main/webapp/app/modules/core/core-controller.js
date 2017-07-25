@@ -2,9 +2,9 @@
 'use strict';
 (function () {
 	var CoreController = function($rootScope, $scope, $http, coreService) {
-    	coreService.me().then(function (response) {
-    		$scope.user = response;
-    	});
+//    	coreService.me().then(function (response) {
+//    		$scope.user = response;
+//    	});
     	
     	var formdata = new FormData();
         $scope.getTheFiles = function ($files) {
