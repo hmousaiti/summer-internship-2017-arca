@@ -1,11 +1,102 @@
-<div ng-controller="CoreController as coreCtrl">
-Hello from ARCA Core route --> {{user}}
-<br/><br/>
-<input type="file" id="file" name="file" ng-files="getTheFiles($files)" />
-	<input type="button" ng-click="uploadFiles()" value="Upload" />    
-	
-	{{results}}
+
+<!--  <section class="header parallax home-parallax page" id="HOME"> -->
+<!--        <div class="container home-container"> -->
+<!--                 <div class="row"> -->
+<!--                     <div class="col-md-12"> -->
+<!--                         <div class="logo text-center"> -->
+<!--                                 LOGO -->
+<!--                             <img width="125" height="55" src="app/resources/images/logo.png" alt=""> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--                 <div class="row"> -->
+<!--                     <div class="col-md-8 col-sm-8"> -->
+<!--                         <div class="home_text"> -->
+<!--                             TITLE AND DESC -->
+<!--                             <h1>Welcome To ARCA webpage</h1> -->
+                           
+
+<!--                            <div ng-controller="CoreController as coreCtrl"> -->
+<!-- <br/><br/> -->
+<!-- <input type="file" id="file" name="file" ng-files="getTheFiles($files)" /> -->
+<!-- 	<input type="button" ng-click="uploadFiles()" value="Upload" /> -->
+
+<!-- <h3> -->
+<!-- <section> -->
+<!-- <div ng-if="loading" class="spn_hol"><div class="spinner"> -->
+<!--             <div class="bounce1"></div> -->
+<!--             <div class="bounce2"></div> -->
+<!--             <div class="bounce3"></div> -->
+<!--         </div></div> -->
+<!--     <table ng-if="!loading"> -->
+<!--       <thead> -->
+    
+<!--         <tr ng-repeat="result in results| limitTo:1"> -->
+<!--           <th ng-repeat="(key, val) in result"> -->
+<!--             {{key}} -->
+<!--           </th> -->
+<!--         </tr> -->
+<!--       </thead> -->
+<!--       <tbody> -->
+<!--         <tr ng-repeat="result in results"> -->
+<!--           <td ng-repeat="(key, val) in result"> -->
+<!--             {{val}} -->
+<!--           </td> -->
+<!--         </tr> -->
+<!--       </tbody> -->
+<!--     </table> -->
+<!--   </section> -->
+<!-- </h3> -->
+<!-- </div> -->
+
+<!--                         </div> -->
+<!--                     </div> -->
+                
+<!--                 </div> -->
+<!--             </div> -->
+<!--         </div> -->
+<!--         </section> -->
+<!-- <div ng-controller="CoreController as coreCtrl"> -->
+<!-- <br/><br/> -->
+<!-- <input type="file" id="file" name="file" ng-files="getTheFiles($files)" /> -->
+<!-- 	<input type="button" ng-click="uploadFiles()" value="Upload" /> -->
+
+<!-- <h3> -->
+<div ng-controller="CoreController as coreCtrl" style="margin: auto"> 
+<br/>
+<h1 style="text-align:center">Welcome to ARCA WebPage</h1>
+
+<a href="/arca/find-my-car" target="_blank" class="btn-big-red">Find My Car!</a>
+<div>
+<input style="text-align:center;margin-left:40%; margin-right:auto;" type="file" id="file" name="file" ng-files="getTheFiles($files)"/>
+<br>	<input style=" width:20%;margin-left:40%; margin-right:auto;" type="button" ng-click="uploadFiles()" value="Upload" />
 </div>
 
-<a href="/arca/find-my-car" target="_blank">Find my car</a>
 
+
+<section>
+<div ng-if="loading" class="spn_hol"><div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div></div>
+    <table ng-if="!loading">
+      <thead>
+    
+        <tr ng-repeat="result in results| limitTo:1">
+          <th ng-repeat="(key, val) in result">
+            {{key}}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="result in results">
+          <td ng-repeat="(key, val) in result">
+            {{val}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</div>

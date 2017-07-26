@@ -1,14 +1,10 @@
 package com.ibm.internship.arca.business;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.ws.rs.WebApplicationException;
 
 import com.cloudant.client.api.Database;
-import com.cloudant.client.api.model.Response;
 /*import com.ibm.bluemix.services.business.logic.IBluemixCloudant;
 import com.ibm.bluemix.services.business.logic.impl.EventRulesEnum;
 import com.ibm.mea.build.web.rest.dto.AlertSelector;*/
@@ -74,7 +70,7 @@ public class BluemixCloudant {
 			String selector = "{\"selector\": {\"payload.batt\": {\"$gt\": 0}},\"fields\": [\"_id\",\"payload.batt\"],\"sort\": [{\"payload.batt\": \"desc\"}]}";
 			
 			List<Doc> docs = b.getDB().findByIndex(selector, Doc.class);
-			lon = docs.get(1).getPayload().getLong();
+			lon = docs.get(docs.size()-1).getPayload().getLong();
 			
 		}catch(Exception e){
 			e.printStackTrace();
@@ -91,7 +87,7 @@ public class BluemixCloudant {
 			String selector = "{\"selector\": {\"payload.batt\": {\"$gt\": 0}},\"fields\": [\"_id\",\"payload.batt\"],\"sort\": [{\"payload.batt\": \"desc\"}]}";
 			
 			List<Doc> docs = b.getDB().findByIndex(selector, Doc.class);
-			lon = docs.get(1).getPayload().getLat();
+			lon = docs.get(docs.size()-1).getPayload().getLat();
 			
 		}catch(Exception e){
 			e.printStackTrace();

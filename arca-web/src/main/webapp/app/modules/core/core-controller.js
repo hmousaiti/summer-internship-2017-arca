@@ -2,9 +2,11 @@
 'use strict';
 (function () {
 	var CoreController = function($rootScope, $scope, $http, coreService) {
-//    	coreService.me().then(function (response) {
-//    		$scope.user = response;
-//    	});
+    	coreService.me().then(function (response) {
+    		$scope.user = response;
+    	});
+    	$scope.loading = false;
+    	
     	
     	var formdata = new FormData();
         $scope.getTheFiles = function ($files) {
@@ -12,9 +14,12 @@
                 formdata.append("file", value);
             });
         };
-
+        $scope.mySplit = function($files, nb) {
+            var array = $files.split(',');
+            $results= array[nb];
+        }
         $scope.uploadFiles = function () {
-
+        	$scope.loading=true;
         	$http({ 
         				method: 'POST', 
         				url: 'rest/visual/analyze',
@@ -25,6 +30,7 @@
         			})
             .success(function(data, status) {
                 $scope.results = data;
+                $scope.loading=false;
              })
             .error(function(data, status) {
                 console.debug("Error");
