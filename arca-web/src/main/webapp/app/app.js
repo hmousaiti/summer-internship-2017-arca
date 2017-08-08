@@ -17,6 +17,9 @@
       $routeProvider.when('/', {
           'templateUrl': 'app/modules/core/core.html',
           'reloadOnSearch': false
+      }).when('/analyze', {
+          'templateUrl': 'app/modules/core/analyze.html',
+          'reloadOnSearch': false
       }).when('/conversation', {
           'templateUrl': 'app/modules/conversation/conversation.html',
           'reloadOnSearch': false

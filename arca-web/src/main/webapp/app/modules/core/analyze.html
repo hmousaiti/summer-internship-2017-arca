@@ -1,0 +1,32 @@
+<div ng-controller="CoreController as coreCtrl" style="margin: auto"> 
+
+<div>
+<input style="text-align:center;margin-left:40%; margin-right:auto;" type="file" id="file" name="file" ng-files="getTheFiles($files)"/>
+<br>	<input style=" width:20%;margin-left:40%; margin-right:auto;" type="button" ng-click="uploadFiles()" value="Upload" />
+</div>
+<section>
+<div ng-if="loading" class="spn_hol"><div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div></div>
+    <table ng-if="!loading">
+      <thead>
+    
+        <tr ng-repeat="result in results| limitTo:1">
+          <th ng-repeat="(key, val) in result">
+            {{key}}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="result in results">
+          <td ng-repeat="(key, val) in result">
+            {{val}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</div>

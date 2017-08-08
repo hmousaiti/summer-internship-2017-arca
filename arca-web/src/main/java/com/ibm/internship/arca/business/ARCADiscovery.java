@@ -15,9 +15,9 @@ public class ARCADiscovery {
 	public List<DiscoveryDocument> search(String query){
 		Discovery discovery = new Discovery("2017-07-19");
 		discovery.setEndPoint("https://gateway.watsonplatform.net/discovery/api");
-		discovery.setUsernameAndPassword("3fe186af-7bf8-4762-972f-08310e91c454", "luBPJjOBv2YK");
-		String environmentId = "da5029bc-ba1a-4b46-9fca-bca6e2454ecf";
-		String collectionId = "2a1ee576-6a22-4898-8a84-fcb42770cddf";
+		discovery.setUsernameAndPassword("cb6a0bee-a980-467f-b04e-8964964a4257", "cpqBG4Pkd4xm");
+		String environmentId = "6d3902ae-ce4b-4865-b9be-ca576af22b74";
+		String collectionId = "def0dc2b-6491-4531-bcb5-aacf83a406fb";
 
 
 		QueryRequest.Builder queryBuilder = new QueryRequest.Builder(environmentId, collectionId);
