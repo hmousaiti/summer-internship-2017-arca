@@ -1,0 +1,34 @@
+body {
+	background: #33daca;
+}
+
+.responsive-img {
+	width: 100%;
+}
+
+nav {
+	padding: 0 70px !important;
+}
+
+nav, footer {
+	background: #26a69a !important;
+}
+
+.map-placeholder {
+	width: 100%;
+	height: 450px;
+	background: #FAFAFA;
+}
+
+iframe {
+	width: 100% !important;
+	margin-bottom: 50px;
+}
+
+.center {
+	border: none !important;
+	padding: 20px !important;
+    margin: 20px auto !important;
+    border-radius: 10px;
+    border-bottom: 3px solid #dadada !important;
+}

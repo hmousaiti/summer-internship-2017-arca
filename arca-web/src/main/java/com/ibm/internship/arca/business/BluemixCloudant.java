@@ -1,5 +1,6 @@
 package com.ibm.internship.arca.business;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.WebApplicationException;
@@ -47,6 +48,13 @@ public class BluemixCloudant {
 	class Doc{
 		private String _id;
 		private Payload payload;
+		private long timestamp;
+		public long getTimestamp() {
+			return timestamp;
+		}
+		public void setTimestamp(long timestamp) {
+			this.timestamp = timestamp;
+		}
 		public String get_id() {
 			return _id;
 		}
@@ -61,37 +69,76 @@ public class BluemixCloudant {
 		}
 	}
 	
-	public double getLongitude () {
-		BluemixCloudant b = new BluemixCloudant();
-//		System.err.println(b.getUserConfig("double-vision-cam").getCameraId());
-		double lon = 0;
-		try{
-//			String selector = "\"selector\": {\"$and\": [{ \"userConfig\": " + true + " },{ \"cameraId\": " + camId + " }]}";
-			String selector = "{\"selector\": {\"payload.batt\": {\"$gt\": 0}},\"fields\": [\"_id\",\"payload.batt\"],\"sort\": [{\"payload.batt\": \"desc\"}]}";
-			
-			List<Doc> docs = b.getDB().findByIndex(selector, Doc.class);
-			lon = docs.get(docs.size()-1).getPayload().getLong();
-			
-		}catch(Exception e){
-			e.printStackTrace();
+	public class location{
+		
+		private double longitude;
+		private double latitude;
+		
+		public double getLongitude() {
+			return longitude;
 		}
-		return lon;
+		public void setLongitude(double longitude) {
+			this.longitude = longitude;
+		}
+		public double getLatitude() {
+			return latitude;
+		}
+		public void setLatitude(double latitude) {
+			this.latitude = latitude;
+		}
+		
+		
 	}
 	
-	public double getLatitude () {
+	public location getLocation () {
 		BluemixCloudant b = new BluemixCloudant();
 //		System.err.println(b.getUserConfig("double-vision-cam").getCameraId());
-		double lon = 0;
+		location loc = new location();
 		try{
 //			String selector = "\"selector\": {\"$and\": [{ \"userConfig\": " + true + " },{ \"cameraId\": " + camId + " }]}";
-			String selector = "{\"selector\": {\"payload.batt\": {\"$gt\": 0}},\"fields\": [\"_id\",\"payload.batt\"],\"sort\": [{\"payload.batt\": \"desc\"}]}";
+			String selector = "{\"selector\": {\"timestamp\": {\"$gt\": 0}},\"fields\": [\"_id\",\"timestamp\"],\"sort\": [{\"timestamp\": \"desc\"}]}";
 			
 			List<Doc> docs = b.getDB().findByIndex(selector, Doc.class);
-			lon = docs.get(docs.size()-1).getPayload().getLat();
+			loc.setLongitude(docs.get(docs.size()-1).getPayload().getLong());
+			loc.setLatitude(docs.get(docs.size()-1).getPayload().getLat());
+			
 			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		return lon;
+		return loc;
+	}
+	
+	
+	public List<location> getPath (long from, long to) {
+		BluemixCloudant b = new BluemixCloudant();
+//		System.err.println(b.getUserConfig("double-vision-cam").getCameraId());
+		List<location> path = new ArrayList<location>();
+		location loc = new location();
+		try{
+//			String selector = "\"selector\": {\"$and\": [{ \"userConfig\": " + true + " },{ \"cameraId\": " + camId + " }]}";
+			String selector = "{\"selector\": {\"timestamp\": {\"$gt\": 0}},\"fields\": [\"_id\",\"timestamp\"],\"sort\": [{\"timestamp\": \"desc\"}]}";
+			
+			List<Doc> docs = b.getDB().findByIndex(selector, Doc.class);
+			
+			
+			for (int i = docs.size() - 1; i >= 0; i--)
+			{
+				if (docs.get(i).getTimestamp() > from && docs.get(i).getTimestamp() < to)
+				{
+					loc.setLongitude(docs.get(i).getPayload().getLong());
+					loc.setLatitude(docs.get(i).getPayload().getLat());
+					
+					path.add(loc);
+					loc = new location();
+				}
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return path;
 	}
 }
+	
+	

@@ -1,7 +1,49 @@
+<link type="text/css" rel="stylesheet" href="app/css/find-my-car/materialize.min.css"  media="screen,projection"/>
+<link type="text/css" rel="stylesheet" href="app/css/find-my-car/style.css" />
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjEy8mneTaaYQmpQcJJXX5fE8-4M9qNY8&callback=myMap"></script>
 
-<div ng-controller="FindMyCarController">
- <div id="googleMap" style="width:100%;height:400px;"></div>  
+<style>
+	.page-footer {
+  		min-height: 56px;
+  		height: auto;
+	}
 
- <a style="margin-left:40%" href="#" ng-click="SendSMS()" class="btn-big-red">Send SMS</a>
+	.center {
+	    margin-top: -6px;
+	    margin-right: auto;
+	    margin-left: auto;
+	    margin-bottom: auto;
+	    width: 40%;
+	    border: 1px solid black;
+	    padding-top: 20px;
+	    padding-right: 0px;
+	    padding-bottom: 20px;
+	    padding-left: 0px;
+	    background-color: white; 
+	}
+</style>
+<div ng-controller="FindMyCarController">
+	<div id="googleMap" style="width:100%;height:400px;"></div>  
+	<div class="center">
+		<h5>Check for your location</h5><br>
+	    <ul id="tabs-swipe-demo" class="tabs">
+		    <li class="tab col s3"><a class="active" href="#test-swipe-1">Start Date</a></li>
+		    <li class="tab col s3"><a href="#test-swipe-2">End Date</a></li>
+		    <li class="tab col s3"><a href="#test-swipe-3">Get your location via SMS </a></li>
+	  	</ul>
+		<div id="test-swipe-1" class="col s12 white">From (date and time):
+			<input type="datetime-local" id="from">
+			<a class="btn-flat disabled" href="#test-swipe-2">Goto Next step</a>
+	  	</div>
+		<div id="test-swipe-2" class="col s12 white">To (date and time):
+			<input type="datetime-local" id="to">
+			<button class="btn waves-effect waves-light" ng-click="GetPath()">Submit<i class="material-icons right">send</i></button>
+		</div>
+		<div id="test-swipe-3" class="col s12 white"> Enter your phone number : 
+			<input type="text" name="firstname" id="phone" placeholder="eg: +20123456789 ">
+			<button class="btn waves-effect waves-light" ng-click="SendSMS()">Send Message<i class="material-icons right">message</i></button>
+	    </div>
+	</div>
 </div>
+<script type="text/javascript" src="app/js/materialize.min.js"></script>
+    
