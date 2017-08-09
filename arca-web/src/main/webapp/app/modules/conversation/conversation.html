@@ -1,3 +1,7 @@
+<link rel="stylesheet" href="app/css/bla.css">
+  <script src="app/js/bla.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjEy8mneTaaYQmpQcJJXX5fE8-4M9qNY8&callback=myMap"></script>
+ 
 <div ng-controller="ConversationController as conversationController">
 	<div class="chat_window">
 		<div class="top_menu">
@@ -10,13 +14,47 @@
 		</div>
 		<ul class="messages"></ul>
 		<div class="bottom_wrapper clearfix">
-			<div class="message_input_wrapper">
+		
+<!-- 			<div class="message_input_wrapper"> -->
+<!-- 				<textarea data-ng-keyup="onKeypress($event)" placeholder="Type your message here..." class="message_input" rows="4" cols="50" ng-model="userInput"></textarea> -->
+<!-- 			</div> -->
+
+			<div ng-show="USER_INPUT === 'TEXT_FIELD'" class="message_input_wrapper" >
 				<textarea data-ng-keyup="onKeypress($event)" placeholder="Type your message here..." class="message_input" rows="4" cols="50" ng-model="userInput"></textarea>
 			</div>
+<!-- 	<div ng-show="SHOW_LOCATION === 'TRUE'"  > -->
+<!--  <div class='wrap'> -->
+<!--   <div class='content'> -->
+    
+    
+<!-- <div ng-controller="FindMyCarController"> -->
+<!-- {{location}} -->
+<!--  <div id="googleMap" style="width:100%;height:400px;"></div>   -->
+
+
+<!-- </div> -->
+<!--   </div> -->
+<!-- </div> -->
+<!-- <a class='button glyphicon glyphicon-plus' href='#'></a> -->
+<!-- </div> -->
+			<div ng-show="USER_INPUT === 'DATE_PICKER'" style="width: 50%; height: 50%; float:left;" >
+			<h3>From:</h3>
+<!-- 				<input id="dateFin" name="dateFin" ng-model="dataString" type="date" > -->
+				 <input type="datetime-local" id="from" ng-model="fromDate">
+		</div>
+					<div ng-show="USER_INPUT === 'DATE_PICKER'" style="width: 50%; height: 50%;float:right;" >
+			<h3>To:</h3>
+<!-- 				<input id="dateFin" name="dateFin" ng-model="dataString" type="date" > -->
+				 <input type="datetime-local" id="to" ng-model="toDate">
+		</div>
 			<div class="send_message">
 				<div class="icon"></div>
-				<div class="text" ng-click="sendMessage()">Send</div>
+				<div ng-show="USER_INPUT === 'TEXT_FIELD'" class="text" ng-click="sendMessage()">Send</div>
+				<div ng-show="USER_INPUT === 'DATE_PICKER'" class="text" ng-click="sendDate()">Send</div>
 			</div>
+			
+
+			
 		</div>
 	</div>
 	<div class="message_template">
@@ -27,4 +65,22 @@
 			</div>
 		</li>
 	</div>
+	
+						<div ng-show="SHOW_LOCATION === 'TRUE'"  >
+ <div class='wrap'>
+  <div class='content'>
+    
+    
+<div ng-controller="FindMyCarController">
+{{location}}
+ <div id="googleMap" style="width:100%;height:400px;"></div>  
+
+
 </div>
+  </div>
+</div>
+<a class='button glyphicon glyphicon-plus' href='#'></a>
+</div>
+	
+</div>
+	
