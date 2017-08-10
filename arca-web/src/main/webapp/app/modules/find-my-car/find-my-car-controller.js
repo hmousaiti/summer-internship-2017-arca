@@ -49,11 +49,11 @@ function FindMyCarController($scope, $http) {
 		var phone = document.getElementById("phone").value;
 		$http.get("https://arca-location-webservice.mybluemix.net/location?lat="+latt+"&lng="+lon+"&number="+phone)
 		.then(function(response) {
-			alert("SMS Sent  !");
+			//alert("SMS Sent  !");
 				
 		},function(response) {
 			//Second function handles error
-			alert("SMS Failed !");
+			//alert("SMS Failed !");
 			});
 		
 	}

@@ -100,6 +100,33 @@ public class ConversationResource {
 	    	 conversationResponse.getContext().put(Constants.CONTEXT_SHOW_PATH_PROPERTY_KEY, "FALSE");
 	    }
 	    
+	    if((!conversationResponse.getContext().containsKey(Constants.CONTEXT_ACTION_PROPERTY_NAME)
+	    		&&conversationResponse.getContext().get(Constants.CONTEXT_SHOW_LOCATION_PROPERTY_KEY).equals("TRUE"))||
+	    	(conversationResponse.getContext().containsKey(Constants.CONTEXT_ACTION_PROPERTY_NAME)
+	    		&& !conversationResponse.getContext().get(Constants.CONTEXT_ACTION_PROPERTY_NAME).equals(Constants.CONTEXT_ACTION_RETREIVE_LOCATION)
+	    		&& conversationResponse.getContext().containsKey(Constants.CONTEXT_SHOW_LOCATION_PROPERTY_KEY)
+	    		&&conversationResponse.getContext().get(Constants.CONTEXT_SHOW_LOCATION_PROPERTY_KEY).equals("TRUE")))
+	    {
+	    	conversationResponse.getContext().remove(Constants.CONTEXT_SHOW_LOCATION_PROPERTY_KEY);
+	    	conversationResponse.getContext().put(Constants.CONTEXT_SHOW_LOCATION_PROPERTY_KEY, "FALSE");
+	    	conversationResponse.getContext().remove(Constants.CONTEXT_LAT_PROPERTY_KEY);
+	    	conversationResponse.getContext().remove(Constants.CONTEXT_LONG_PROPERTY_KEY);
+	    	
+	    }
+	    
+	    if((!conversationResponse.getContext().containsKey(Constants.CONTEXT_ACTION_PROPERTY_NAME)
+	    		&&conversationResponse.getContext().get(Constants.CONTEXT_SHOW_PATH_PROPERTY_KEY).equals("TRUE")) ||
+		    	(conversationResponse.getContext().containsKey(Constants.CONTEXT_ACTION_PROPERTY_NAME)
+		    		&& !conversationResponse.getContext().get(Constants.CONTEXT_ACTION_PROPERTY_NAME).equals(Constants.CONTEXT_ACTION_RETREIVE_PATH)
+		    		&& conversationResponse.getContext().containsKey(Constants.CONTEXT_SHOW_PATH_PROPERTY_KEY)
+		    		&&conversationResponse.getContext().get(Constants.CONTEXT_SHOW_PATH_PROPERTY_KEY).equals("TRUE")))
+		    {
+		    	conversationResponse.getContext().remove(Constants.CONTEXT_SHOW_PATH_PROPERTY_KEY);
+		    	conversationResponse.getContext().put(Constants.CONTEXT_SHOW_PATH_PROPERTY_KEY, "FALSE");
+		    	conversationResponse.getContext().remove("PATH");
+		    	
+		    }	
+	    
 	    if(conversationResponse.getContext().containsKey(Constants.CONTEXT_ACTION_PROPERTY_NAME)
 	    		&& conversationResponse.getContext().get(Constants.CONTEXT_ACTION_PROPERTY_NAME).equals(Constants.CONTEXT_ACTION_RETREIVE_LOCATION))
 	    {
@@ -107,8 +134,8 @@ public class ConversationResource {
 	    	responsetxt = conversationResponse.getOutput().get("text").toString();
 			responsetxt = responsetxt.substring(1, responsetxt.length()-2);
 			double lng = BC.getLocation().getLongitude();
-			double lat = BC.getLocation().getLongitude();
-	    	responsetxt = responsetxt + " longitude: " + lng + " and latitude: " + lat;
+			double lat = BC.getLocation().getLatitude();
+	    	//responsetxt = responsetxt + " longitude: " + lng + " and latitude: " + lat + ",Press the below button to show map";
 	    	conversationResponse.getContext().put(Constants.CONTEXT_SHOW_LOCATION_PROPERTY_KEY, "TRUE");
 	    	conversationResponse.getContext().put(Constants.CONTEXT_LONG_PROPERTY_KEY, lng);
 	    	conversationResponse.getContext().put(Constants.CONTEXT_LAT_PROPERTY_KEY, lat);
@@ -147,6 +174,8 @@ public class ConversationResource {
 			responsetxt = responsetxt.substring(1, responsetxt.length()-2);
 	    	responsetxt = responsetxt+ " " + path.size() + " locations.";
 	    }
+	    
+	    
 	    
 	    if(!responsetxt.isEmpty())
 	      conversationResponse.getOutput().put("text", responsetxt);
