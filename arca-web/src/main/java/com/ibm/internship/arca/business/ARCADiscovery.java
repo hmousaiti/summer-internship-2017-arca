@@ -24,25 +24,28 @@ public class ARCADiscovery {
 		queryBuilder.query("body :+ "+query);
 		QueryResponse queryResponse = discovery.query(queryBuilder.build()).execute();
 
-		System.err.println(queryResponse.getResults().size());
-		List <DiscoveryDocument> al = new ArrayList ();
+		List <DiscoveryDocument> al = new ArrayList<DiscoveryDocument>();
 		for (int i=0; i<queryResponse.getResults().size(); i++) {
-			String id ="";
-			String body="";
-			String url ="";
+			DiscoveryDocument doc = new DiscoveryDocument() ;
+			
 			for (Map.Entry<String, Object> entry : queryResponse.getResults().get(i).entrySet()) {
-				if(entry.getKey().equals("id")){
-					id = entry.getValue().toString() ;
-				}
+//				if(entry.getKey().equals("id")){
+//					doc.setId(entry.getValue().toString());
+//				}
 				if(entry.getKey().equals("body")){
-					body = entry.getValue().toString() ;
+					doc.setBody(entry.getValue().toString());
 				}
 				if(entry.getKey().equals("sourceUrl")){
-					 url = entry.getValue().toString() ;
+					 doc.setUrl(entry.getValue().toString());
+				}
+				if(entry.getKey().equals("title")){
+					 doc.setTitle(entry.getValue().toString());
+				}
+				if(entry.getKey().equals("URL")){
+					 doc.setImageURL(entry.getValue().toString());
 				}
 			}
-			DiscoveryDocument DD = new DiscoveryDocument(id,body,url) ;
-			al.add(DD);
+			al.add(doc);
 		}
 	
 		return al;

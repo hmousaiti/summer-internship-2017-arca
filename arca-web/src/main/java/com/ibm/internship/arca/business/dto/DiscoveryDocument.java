@@ -2,25 +2,26 @@ package com.ibm.internship.arca.business.dto;
 
 public class DiscoveryDocument {
 
-	private String id;
+//	private String id;
 	
 	private String body;
 	
 	private String url;
 	
-	public DiscoveryDocument(String id,String body,String url){
-		this.id= id ;
-		this.body = body ;
-		this.url = url ;
+	private String title;
+	
+	private String imageURL;
+	
+	public DiscoveryDocument(){
 	}
 
-	public String getId() {
-		return id;
-	}
+//	public String getId() {
+//		return id;
+//	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
+//	public void setId(String id) {
+//		this.id = id;
+//	}
 
 	public String getBody() {
 		return body;
@@ -36,5 +37,21 @@ public class DiscoveryDocument {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getImageURL() {
+		return imageURL;
+	}
+
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
 	}
 }
