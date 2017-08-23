@@ -1,9 +1,12 @@
 package com.ibm.internship.arca.web.rest;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -27,7 +31,10 @@ import javax.ws.rs.core.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.ibm.internship.arca.business.ARCADiscovery;
 import com.ibm.internship.arca.business.BluemixCloudant;
+import com.ibm.internship.arca.business.VisualRecognitionBusiness;
+import com.ibm.internship.arca.business.dto.DiscoveryDocument;
 //import com.ibm.mea.build.web.rest.Constants;
 //import com.ibm.bluemix.services.business.logic.IBluemixCloudant;
 //import com.ibm.bluemix.services.business.logic.impl.BusinessLogicFactory;
@@ -77,7 +84,7 @@ public class ConversationResource {
 	    return null;
 	  }
 	
-	private MessageResponse getWatsonResponse(MessageRequest conversationRequest, String id) throws Exception {
+	private MessageResponse getWatsonResponse(MessageRequest conversationRequest, String id, List<DiscoveryDocument> documents) throws Exception {
 
 	    //ConversationService service = new ConversationService(API_VERSION != null ? API_VERSION : ConversationService.VERSION_DATE_2016_09_20);
 		ConversationService service = new ConversationService("2017-08-06");
@@ -94,7 +101,6 @@ public class ConversationResource {
 	    {
 	    	String username = conversationResponse.getContext().get(Constants.CONTEXT_USERNAME_PROPERTY_KEY).toString();
 	    	 responsetxt =  conversationResponse.getOutput().get("text").toString();
-	    	 responsetxt = responsetxt.substring(1, responsetxt.length()-2);
 	    	 responsetxt += " "+username + "?";
 	    	 conversationResponse.getContext().put(Constants.CONTEXT_SHOW_LOCATION_PROPERTY_KEY, "FALSE");
 	    	 conversationResponse.getContext().put(Constants.CONTEXT_SHOW_PATH_PROPERTY_KEY, "FALSE");
@@ -132,13 +138,21 @@ public class ConversationResource {
 	    {
 	    	conversationResponse.getContext().remove(Constants.CONTEXT_ACTION_PROPERTY_NAME);
 	    	responsetxt = conversationResponse.getOutput().get("text").toString();
-			responsetxt = responsetxt.substring(1, responsetxt.length()-2);
 			double lng = BC.getLocation().getLongitude();
 			double lat = BC.getLocation().getLatitude();
 	    	//responsetxt = responsetxt + " longitude: " + lng + " and latitude: " + lat + ",Press the below button to show map";
 	    	conversationResponse.getContext().put(Constants.CONTEXT_SHOW_LOCATION_PROPERTY_KEY, "TRUE");
 	    	conversationResponse.getContext().put(Constants.CONTEXT_LONG_PROPERTY_KEY, lng);
 	    	conversationResponse.getContext().put(Constants.CONTEXT_LAT_PROPERTY_KEY, lat);
+	    }
+	    if(conversationResponse.getContext().containsKey(Constants.CONTEXT_ACTION_PROPERTY_NAME)
+	    		&& conversationResponse.getContext().get(Constants.CONTEXT_ACTION_PROPERTY_NAME).equals(Constants.CONTEXT_ACTION_ANALYZE_IMAGE))
+	    {
+	    	conversationResponse.getContext().remove(Constants.CONTEXT_ACTION_PROPERTY_NAME);
+	    	responsetxt = documents.get(0).getBody();
+	    	String anythingElse= conversationResponse.getOutput().get("text").toString();
+	    	responsetxt += anythingElse;
+	    	
 	    }
 	    if(conversationResponse.getContext().containsKey(Constants.CONTEXT_ACTION_PROPERTY_NAME)
 	    		&& conversationResponse.getContext().get(Constants.CONTEXT_ACTION_PROPERTY_NAME).equals(Constants.CONTEXT_ACTION_RETREIVE_PATH))
@@ -170,15 +184,17 @@ public class ConversationResource {
 		    conversationResponse.getContext().put("PATH", locationArray);
 		    conversationResponse.getContext().remove(Constants.CONTEXT_TO_DATE_PROPERTY_KEY);
 		    conversationResponse.getContext().remove(Constants.CONTEXT_FROM_DATE_PROPERTY_KEY);
-	    	responsetxt = conversationResponse.getOutput().get("text").toString();
-			responsetxt = responsetxt.substring(1, responsetxt.length()-2);
-	    	responsetxt = responsetxt+ " " + path.size() + " locations.";
+		    responsetxt = conversationResponse.getOutput().get("text").toString();
 	    }
 	    
 	    
 	    
 	    if(!responsetxt.isEmpty())
+	    {
+	    	  responsetxt = responsetxt.replace("[",  "").replace("]", "").replace(",", "");
 	      conversationResponse.getOutput().put("text", responsetxt);
+	      
+	    }
 	    return conversationResponse;
 	}
 	
@@ -198,7 +214,7 @@ public class ConversationResource {
 	    MessageResponse response = null;
 
 	    try {
-	      response = getWatsonResponse(request, workspaceId);  	
+	      response = getWatsonResponse(request, workspaceId, null);  	
 	    } catch (Exception e) {
 	      e.printStackTrace();
 	      return Response.status(Status.BAD_REQUEST).entity(e).build();
@@ -206,4 +222,57 @@ public class ConversationResource {
 	    }
 	    return Response.ok(new Gson().toJson(response, MessageResponse.class)).type(MediaType.APPLICATION_JSON).build();
 	}
+	@POST
+	@Path("analyze")
+	@Consumes({MediaType.MULTIPART_FORM_DATA})
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response analyzeImage(@FormDataParam("file") InputStream fileInputStream, @FormDataParam("body") InputStream body)
+	{
+			//System.err.println(fileInputStream);
+			System.out.println("Wesesl");
+			System.out.println(body);
+			try {
+				MessageRequest request = buildMessageFromPayload(body);
+				File imageTmpFile = this.createTmpFileForInputStream(fileInputStream);
+				
+				VisualRecognitionBusiness handler = new VisualRecognitionBusiness();
+				String topVRClass = handler.getTopVisualClass(imageTmpFile);
+				
+				
+				ARCADiscovery discovery = new ARCADiscovery();
+				List<DiscoveryDocument> documents = discovery.search(topVRClass);
+			
+			
+			
+
+		    if (request == null) {
+		      throw new IllegalArgumentException("");
+		    }
+
+		    MessageResponse response = null;
+
+		    try {
+		      response = getWatsonResponse(request, workspaceId, documents);  	
+		    } catch (Exception e) {
+		      e.printStackTrace();
+		      return Response.status(Status.BAD_REQUEST).entity(e).build();
+		      //return Response.ok(new Gson().toJson(errorsOutput, HashMap.class)).type(MediaType.APPLICATION_JSON).build();
+		    }
+		    return Response.ok(new Gson().toJson(response, MessageResponse.class)).type(MediaType.APPLICATION_JSON).build();
+		    } catch (Exception e) {
+			e.printStackTrace();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
+		}
+		
+	}
+	
+	private File createTmpFileForInputStream(InputStream fileInputStream) throws IOException {
+		File tmpFile = File.createTempFile("arca-image-", ".jpg");
+		tmpFile.deleteOnExit();	
+		Files.copy(fileInputStream, tmpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		
+		return tmpFile;
+	}
 }
+
+

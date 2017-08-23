@@ -75,7 +75,8 @@ body {
   opacity: 0;
 }
 .messages .message.left .avatar {
-  background-color: #f5886e;
+  background-image: url("images/ProfileAvatarc.png");
+    background-position: center; 
   float: left;
 }
 .messages .message.left .text_wrapper {
@@ -90,7 +91,7 @@ body {
   color: #c48843;
 }
 .messages .message.right .avatar {
-  background-color: #fdbf68;
+  background-image: url("images/ibm-watson.png");
   float: right;
 }
 .messages .message.right .text_wrapper {

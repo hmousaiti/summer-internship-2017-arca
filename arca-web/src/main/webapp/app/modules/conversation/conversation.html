@@ -14,6 +14,15 @@
 		<ul class="messages"></ul>
 		<div class="bottom_wrapper clearfix">
 		
+		
+<!-- 			<div ng_show="IMAGE_FIELD" === 'true' > -->
+			<div ng-show="USER_INPUT === 'IMAGE_PICKER'">
+<input style="text-align:center;margin-left:40%; margin-right:auto;" type="file" id="file" name="file" ng-files="getTheFiles($files)"/>
+<!-- <br>	<input style=" width:20%;margin-left:40%; margin-right:auto;" type="button" ng-click="uploadFiles()" value="Upload" /> -->
+</div>
+		
+		
+		
 <!-- 			<div class="message_input_wrapper"> -->
 <!-- 				<textarea data-ng-keyup="onKeypress($event)" placeholder="Type your message here..." class="message_input" rows="4" cols="50" ng-model="userInput"></textarea> -->
 <!-- 			</div> -->
@@ -50,6 +59,7 @@
 				<div class="icon"></div>
 				<div ng-show="USER_INPUT === 'TEXT_FIELD'" class="text" ng-click="sendMessage()">Send</div>
 				<div ng-show="USER_INPUT === 'DATE_PICKER'" class="text" ng-click="sendDate()">Send</div>
+				<div ng-show="USER_INPUT === 'IMAGE_PICKER'" class="text" ng-click="sendImage()">Upload</div>
 			</div>
 			
 
@@ -64,8 +74,8 @@
 			</div>
 		</li>
 	</div>
-	
-						<div ng-show="SHOW_LOCATION === 'TRUE'" ng-show="SHOW_PATH === 'TRUE'"  >
+
+<div ng-show="SHOW_LOCATION === 'TRUE'"  >
  <div class='wrap'>
   <div class='content'>
     
@@ -82,6 +92,28 @@
 <script type="text/javascript">
 $('a').on('click', function(){
 	  $('.wrap, a').toggleClass('active');
+	  
+	  return false;
+	});
+
+</script>
+</div>
+		<div ng-show="SHOW_PATH === 'TRUE'"  >
+ <div class='wrap2'>
+  <div class='content'>
+    
+    
+<div >
+ <div id="googleMap2" style="width:100%;height:400px;"></div>  
+
+
+</div>
+  </div>
+</div>
+<a2 class='button glyphicon glyphicon-plus' href='#'></a>
+<script type="text/javascript">
+$('a2').on('click', function(){
+	  $('.wrap2, a2').toggleClass('active');
 	  
 	  return false;
 	});
