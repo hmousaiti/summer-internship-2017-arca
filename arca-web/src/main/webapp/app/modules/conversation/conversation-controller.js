@@ -100,7 +100,7 @@
    
    var sendImage = function ($scope, formdata, conversationService) {
      
-     renderMessage("Please wait while I analyze your image.....", 'left');
+     renderMessage("Please wait while I analyze your image.....", 'right');
      
      conversationService.uploadFiles(formdata).then(function (response) {
       //   console.log(response);
